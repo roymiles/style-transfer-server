@@ -33,7 +33,7 @@ def make_collage(images, filename, width, init_height):
         print('No images for collage found!')
         return False
 
-    margin_size = 2
+    margin_size = 1
     # run until a suitable arrangement of images is found
     while True:
         # copy images to images_list
@@ -93,4 +93,41 @@ def make_collage(images, filename, width, init_height):
                 x += img.size[0] + margin_size
             y += int(init_height / coef) + margin_size
     collage_image.save(filename)
+    return True
+
+
+def make_collage_v2(images, filename):
+    if not images:
+        print('No images for collage found!')
+        return False
+
+    margin_size = 1
+
+    # Size of image
+    im_w, im_h = (256, 180)
+
+    # Creates a new empty image, RGB mode, and size 1000 by 1000
+    new_im = Image.new('RGB', (1280, 800))
+
+    # The width and height of the new image
+    w, h = new_im.size
+
+    # List of all image paths
+    images_list = images[:]
+
+    # Iterate through a grid, to place the background tile
+    for i in range(0, w, im_w):
+        for j in range(0, h, im_h):
+            # get first image and resize
+            if len(images_list) == 0:
+                continue
+
+            img_path = images_list.pop(0)
+            img = Image.open(img_path)
+            img.thumbnail((im_w, im_h))
+
+            # Paste the image at location i, j:
+            new_im.paste(img, (i, j))
+
+    new_im.save(filename)
     return True

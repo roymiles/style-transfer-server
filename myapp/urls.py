@@ -9,4 +9,6 @@ urlpatterns = [
 
     # Route for uploading images
     path('upload/', views.upload, name='upload'),
+
+    path('collage/get_filename', views.get_collage_filename, name='get_collage_filename'),
 ]

@@ -9,8 +9,16 @@
     </head>
 
     <body>
-        <div class="collage">
+        <div id="collage" class="collage">
             <img src="../static/media/{{ collage_link }}"/>
         </div>
     </body>
+
+    <script>
+    window.setInterval(function(){
+        $.ajax({url: "get_filename", success: function(result){
+            document.getElementById("collage").src = "../static/media/" + result
+        }});
+    }, 5000);
+    </script>
 </html>

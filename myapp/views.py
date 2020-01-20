@@ -1,5 +1,5 @@
 from django.http import HttpResponse
-from myapp.utils import load_img, tensor_to_image, make_collage
+from myapp.utils import load_img, tensor_to_image, make_collage, make_collage_v2
 import tensorflow as tf
 import tensorflow_hub as hub
 from django.http import HttpResponseRedirect
@@ -44,6 +44,20 @@ def collage(request):
     return render(request, 'collage.html', {'collage_link': f"styled-collages/{filenames[0]}"})
 
 
+def get_collage_filename(request):
+    # Sort collages in order and show most recent
+    filenames = []
+    for file in os.listdir(static_path("styled-collages/")):
+        if file.endswith((".png", ".jpg", ".jpeg")):
+            filenames.append(file)
+
+    if len(filenames) == 0:
+        return HttpResponse(f"No collages have been made.")
+
+    filenames.sort(reverse=True)
+    return HttpResponse(f"styled-collages/{filenames[0]}")
+
+
 def upload(request):
     if request.method == 'POST':
         """ Handle the file upload request """
@@ -51,7 +65,7 @@ def upload(request):
 
         # Open, modify and then save in memory
         img = Image.open(request.FILES['image'])
-        img.thumbnail((150, 150), Image.ANTIALIAS)
+        img.thumbnail((256, 256), Image.ANTIALIAS)
         thumb_io = BytesIO()
         img_format = str(request.FILES['image'].content_type.split('/')[-1].upper())
         img.save(thumb_io, img_format)
@@ -113,11 +127,15 @@ def upload(request):
         unique_collage_name = hashlib.md5(''.join(filenames).encode('utf-8')).hexdigest()
         unique_collage_path = static_path(f"styled-collages/{timestamp}_{unique_collage_name}.png")
         print(f"Collage path: {unique_collage_path}")
-        make_collage(
+        """make_collage_v2(
             images=filenames,
             filename=unique_collage_path,
             width=1024,
             init_height=768
+        )"""
+        make_collage_v2(
+            images=filenames,
+            filename=unique_collage_path
         )
 
         return HttpResponseRedirect('/collage')
