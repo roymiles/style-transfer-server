@@ -25,7 +25,7 @@ SECRET_KEY = '+7(ntzt6a_s=w-#!!+uy-m*c1^r6y4340ka@&r7^%z4b+x!1_j'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['styletransfer-env-1.ai6avjkmza.us-east-1.elasticbeanstalk.com', '127.0.0.1']
 
 
 # Application definition
@@ -119,3 +119,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static"),
+]
+
+MEDIA_URL = '/static/media/'
+MEDIA_ROOT = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'static/media')

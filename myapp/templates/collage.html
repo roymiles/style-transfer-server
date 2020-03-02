@@ -3,14 +3,14 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>Basic Site Template</title>
-        <link type="text/css" rel="stylesheet" href="{% static "stylesheet.css" %}">
+        <title>Style Transfer Collage</title>
+        <link type="text/css" rel="stylesheet" href="../static/stylesheet.css">
         <script class="jsbin" src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
     </head>
 
     <body>
         <div class="collage">
-            <img src="{% static collage_link %}"/>
+            <img src="../static/media/{{ collage_link }}"/>
         </div>
     </body>
 </html>

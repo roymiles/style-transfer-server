@@ -3,10 +3,48 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>Basic Site Template</title>
-        <link type="text/css" rel="stylesheet" href="{% static "stylesheet.css" %}">
+        <title>Upload Images</title>
+        <link type="text/css" rel="stylesheet" href="../static/stylesheet.css"">
         <script class="jsbin" src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+    </head>
+
+    <body>
+        <div class="loading hidden">
+          <div class='uil-ring-css' style='transform:scale(0.79);'>
+            <div></div>
+          </div>
+        </div>
+        <div class="file-upload">
+            <button class="file-upload-btn" type="button" onclick="$('.file-upload-input').trigger('click')">Add Image</button>
+
+            <form id="upload_form" action="" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="image-upload-wrap">
+                    <input id="file-upload-input" class="file-upload-input" type='file' onchange="readURL(this);" accept="image/*" name="image"/>
+                    <div class="drag-text">
+                        <h3>Drag and drop a file or select add Image</h3>
+                    </div>
+                </div>
+                <div class="file-upload-content">
+                    <img class="file-upload-image" src="#" alt="your image" />
+                    <div class="image-title-wrap">
+                        <button type="button" onclick="removeUpload()" class="remove-image">Remove</button>
+                        <button type="button" onclick="submit2()" class="file-submit-btn">Submit</button>
+                    </div>
+                </div>
+            </form>
+        </div>
         <script>
+            var loadingOverlay = document.querySelector('.loading');
+            function toggleLoading(){
+              document.activeElement.blur();
+              if (loadingOverlay.classList.contains('hidden')){
+                loadingOverlay.classList.remove('hidden');
+              } else {
+                loadingOverlay.classList.add('hidden');
+              }
+            }
+
             function readURL(input) {
               if (input.files && input.files[0]) {
 
@@ -29,44 +67,23 @@
             }
 
             function removeUpload() {
-              $('.file-upload-input').replaceWith($('.file-upload-input').clone());
-              $('.file-upload-content').hide();
-              $('.image-upload-wrap').show();
-              $('.submit').show();
-            }
-            function submit() {
-                $('#file-upload-input').val()
+                $('.file-upload-input').replaceWith($('.file-upload-input').clone());
+                $('.file-upload-content').hide();
+                $('.image-upload-wrap').show();
+                $('.submit').show();
             }
 
             $('.image-upload-wrap').bind('dragover', function () {
-                    $('.image-upload-wrap').addClass('image-dropping');
-                });
-                $('.image-upload-wrap').bind('dragleave', function () {
-                    $('.image-upload-wrap').removeClass('image-dropping');
+                $('.image-upload-wrap').addClass('image-dropping');
             });
+            $('.image-upload-wrap').bind('dragleave', function () {
+                $('.image-upload-wrap').removeClass('image-dropping');
+            });
+
+            function submit2(){
+                toggleLoading();
+                $("#upload_form").submit();
+            }
         </script>
-    </head>
-
-    <body>
-        <div class="file-upload">
-            <button class="file-upload-btn" type="button" onclick="$('.file-upload-input').trigger( 'click' )">Add Image</button>
-
-            <form action="" method="POST" enctype="multipart/form-data">
-                {% csrf_token %}
-                <div class="image-upload-wrap">
-                    <input id="file-upload-input" class="file-upload-input" type='file' onchange="readURL(this);" accept="image/*" name="image"/>
-                    <div class="drag-text">
-                        <h3>Drag and drop a file or select add Image</h3>
-                    </div>
-                </div>
-                <div class="file-upload-content">
-                    <img class="file-upload-image" src="#" alt="your image" />
-                    <div class="image-title-wrap">
-                        <button type="button" onclick="removeUpload()" class="remove-image">Remove</button>
-                        <button type="button" onclick="submit()" class="file-submit-btn">Submit</button>
-                    </div>
-                </div>
-            </form>
-        </div>
     </body>
 </html>

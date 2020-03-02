@@ -4,6 +4,7 @@ from . import views
 
 urlpatterns = [
     # Shows the stylised images in a collage
+    path('/', views.collage, name='collage'),
     path('collage/', views.collage, name='collage'),
 
     # Route for uploading images

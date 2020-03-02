@@ -1,0 +1,4 @@
+Django==2.0
+tensorflow==2.0.0b1
+Pillow==7.0.0
+tensorflow-hub==0.7.0
