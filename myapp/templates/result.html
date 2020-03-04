@@ -1,0 +1,72 @@
+{% load static %}
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Style Transfer Collage</title>
+        <link type="text/css" rel="stylesheet" href="../static/stylesheet.css">
+        <script class="jsbin" src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    </head>
+
+    <body>
+        <div id="page">
+            <table class="table">
+              <tbody>
+                {% for idx, entry in results.items %}
+                    <tr id="row_{{ idx }}">
+                      <td id="row_content_{{ idx }}">
+                          <img src="static/media/content/{{ entry.content }}"/>
+                      </td>
+                      <td>
+                          +
+                      </td>
+                      <td id="row_style_{{ idx }}">
+                          <img src="static/media/styles/{{ entry.style }}"/>
+                      </td>
+                      <td>
+                          =
+                      </td>
+                      <td id="row_result_{{ idx }}">
+                          <img src="static/media/styled-images/{{ entry.result }}"/>
+                      </td>
+                    </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+        </div>
+    </body>
+
+    <script>
+    window.setInterval(function(){
+        $.ajax({url: "get_styled_images", success: function(result){
+            console.log("Checking for recent uploads...");
+            var i = 0
+            for (var key in result)
+            {
+                var row = document.getElementById("row_" + i);
+                if(!row)
+                {
+                    console.log("Row " + i + " does not exist");
+                    $("#page table tbody").append(
+                        "<tr id='row_" + i + "'>" +
+                            "<td id='row_content_" + i + "'><img src='static/media/content/" + result[key]["content"] + "'/></td>" +
+                            "<td>+</td>" +
+                            "<td id='row_style_" + i + "'><img src='static/media/styles/" + result[key]["style"] + "'/></td>" +
+                            "<td>=</td>" +
+                            "<td id='row_result_" + i + "'><img src='static/media/styled-images/" + result[key]["result"] + "'/></td>" +
+                        "</tr>"
+                    );
+                }
+                else
+                {
+                    document.getElementById("row_content_" + i).src = result[key]["content"];
+                    document.getElementById("row_style_" + i).src = result[key]["style"];
+                    document.getElementById("row_result_" + i).src = result[key]["result"];
+                }
+                i++;
+            }
+        }});
+    }, 5000);
+    </script>
+</html>
