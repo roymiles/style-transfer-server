@@ -4,7 +4,7 @@
     <head>
         <meta charset="utf-8">
         <title>Style Transfer Collage</title>
-        <link type="text/css" rel="stylesheet" href="../static/stylesheet.css">
+        <link type="text/css" rel="stylesheet" href="{% static 'css/stylesheet.css' %}">
         <script class="jsbin" src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     </head>
@@ -13,22 +13,29 @@
         <div id="page">
             <table class="table">
               <tbody>
+                <tr>
+                    <th>Content</th>
+                    <th></th>
+                    <th>Style</th>
+                    <th></th>
+                    <th>Result</th>
+                </tr>
                 {% for idx, entry in results.items %}
                     <tr id="row_{{ idx }}">
                       <td id="row_content_{{ idx }}">
-                          <img src="static/media/content/{{ entry.content }}"/>
+                          <img id="row_content_img_{{ idx }}" src="static/media/content/{{ entry.content }}"/>
                       </td>
                       <td>
-                          +
+                          <img src="static/media/icons/plus.svg" alt="" width="32" height="32" title="plus">
                       </td>
                       <td id="row_style_{{ idx }}">
-                          <img src="static/media/styles/{{ entry.style }}"/>
+                          <img id="row_style_img_{{ idx }}" src="static/media/styles/{{ entry.style }}"/>
                       </td>
                       <td>
-                          =
+                          <img src="static/media/icons/arrow-right.svg" alt="" width="32" height="32" title="equals">
                       </td>
                       <td id="row_result_{{ idx }}">
-                          <img src="static/media/styled-images/{{ entry.result }}"/>
+                          <img id="row_result_img_{{ idx }}" src="static/media/styled-images/{{ entry.result }}"/>
                       </td>
                     </tr>
                 {% endfor %}
@@ -51,18 +58,19 @@
                     $("#page table tbody").append(
                         "<tr id='row_" + i + "'>" +
                             "<td id='row_content_" + i + "'><img src='static/media/content/" + result[key]["content"] + "'/></td>" +
-                            "<td>+</td>" +
+                            "<td><img src='static/media/icons/plus.svg' alt='' width='32' height='32' title='plus'></td>" +
                             "<td id='row_style_" + i + "'><img src='static/media/styles/" + result[key]["style"] + "'/></td>" +
-                            "<td>=</td>" +
+                            "<td><img src='static/media/icons/arrow-right.svg' alt='' width='32' height='32' title='equals'></td>" +
                             "<td id='row_result_" + i + "'><img src='static/media/styled-images/" + result[key]["result"] + "'/></td>" +
                         "</tr>"
                     );
                 }
                 else
                 {
-                    document.getElementById("row_content_" + i).src = result[key]["content"];
-                    document.getElementById("row_style_" + i).src = result[key]["style"];
-                    document.getElementById("row_result_" + i).src = result[key]["result"];
+                    console.log("Updating " + i + " with " + result[key]["content"]);
+                    document.getElementById("row_content_img_" + i).src = 'static/media/content/' + result[key]["content"];
+                    document.getElementById("row_style_img_" + i).src = 'static/media/styles/' + result[key]["style"];
+                    document.getElementById("row_result_img_" + i).src = 'static/media/styled-images/' + result[key]["result"];
                 }
                 i++;
             }

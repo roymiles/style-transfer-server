@@ -23,9 +23,14 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '+7(ntzt6a_s=w-#!!+uy-m*c1^r6y4340ka@&r7^%z4b+x!1_j'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['styletransfer-env-1.ai6avjkmza.us-east-1.elasticbeanstalk.com', '127.0.0.1']
+ALLOWED_HOSTS = [
+    'styletransfer-env-1.ai6avjkmza.us-east-1.elasticbeanstalk.com',
+    '127.0.0.1',
+    '192.168.1.243',
+    '92.13.54.201'
+]
 
 
 # Application definition
@@ -118,11 +123,14 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
+# STATIC_URL = '/static/'
+# STATICFILES_DIRS = ["C:/Users/Roy/PycharmProjects/StyleTransfer/static/"]
+
+# SITE_ROOT = os.path.dirname(os.path.realpath(__file__))
+# STATICFILES_DIRS = ("C:/Users/Roy/PycharmProjects/StyleTransfer/static",)
+
 STATIC_URL = '/static/'
+# STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static"),
-]
-
-MEDIA_URL = '/static/media/'
-MEDIA_ROOT = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'static/media')
+# MEDIA_URL = 'C:/Users/Roy/PycharmProjects/StyleTransfer/static/media/'
+# MEDIA_ROOT = 'C:/Users/Roy/PycharmProjects/StyleTransfer/static/media/'
